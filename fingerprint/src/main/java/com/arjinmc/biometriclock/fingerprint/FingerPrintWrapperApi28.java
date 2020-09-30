@@ -14,9 +14,13 @@ import androidx.annotation.RequiresApi;
 @RequiresApi(api = Build.VERSION_CODES.P)
 class FingerPrintWrapperApi28 extends AbstractFingerPrintWrapper {
 
+    public FingerPrintWrapperApi28(Context context) {
+        super(context);
+    }
+
     @Override
-    public boolean hasEnrolled(Context context) {
-        BiometricPrompt biometricPrompt = new BiometricPrompt.Builder(context).build();
+    public boolean hasEnrolled() {
+        BiometricPrompt biometricPrompt = new BiometricPrompt.Builder(getContext()).build();
         return biometricPrompt.getAllowedAuthenticators() > 0;
     }
 }

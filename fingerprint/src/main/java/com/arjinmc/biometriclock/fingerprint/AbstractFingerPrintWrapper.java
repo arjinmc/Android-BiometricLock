@@ -10,18 +10,33 @@ import android.content.pm.PackageManager;
  */
 class AbstractFingerPrintWrapper implements IFingerPrintWrapper {
 
+    protected Context mContext;
+
+    public AbstractFingerPrintWrapper(Context context) {
+        mContext = context;
+    }
+
+    public Context getContext() {
+        return mContext;
+    }
+
     @Override
-    public boolean isSupported(Context context) {
-        if (context == null) {
+    public boolean isSupported() {
+        if (mContext == null) {
             return false;
         }
-        PackageManager packageManager = context.getPackageManager();
+        PackageManager packageManager = mContext.getPackageManager();
         return packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT);
     }
 
     @Override
-    public boolean hasEnrolled(Context context) {
+    public boolean hasEnrolled() {
         return false;
+    }
+
+    @Override
+    public void authenticate(FingerPrintAuthenticateCallback fingerPrintAuthenticateCallback) {
+
     }
 
 }
