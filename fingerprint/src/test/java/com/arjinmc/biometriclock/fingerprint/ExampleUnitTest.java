@@ -1,4 +1,4 @@
-package com.arjinmc.madao.fingerprint;
+package com.arjinmc.biometriclock.fingerprint;
 
 import org.junit.Test;
 

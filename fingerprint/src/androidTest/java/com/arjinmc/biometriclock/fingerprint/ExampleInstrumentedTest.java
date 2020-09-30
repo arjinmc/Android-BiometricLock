@@ -1,4 +1,4 @@
-package com.arjinmc.madao.fingerprint;
+package com.arjinmc.biometriclock.fingerprint;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.arjinmc.madao.fingerprint.test", appContext.getPackageName());
+        assertEquals("com.arjinmc.biometriclock.fingerprint.test", appContext.getPackageName());
     }
 }
