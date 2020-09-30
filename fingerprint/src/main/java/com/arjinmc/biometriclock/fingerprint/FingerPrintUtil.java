@@ -13,6 +13,13 @@ public final class FingerPrintUtil {
         if (context == null) {
             return false;
         }
+        return FingerPrintWrapper.getInstance().isSupported(context);
+    }
+
+    public static boolean hasEnrolled(Context context) {
+        if (context == null) {
+            return false;
+        }
         return FingerPrintWrapper.getInstance().hasEnrolled(context);
     }
 }
