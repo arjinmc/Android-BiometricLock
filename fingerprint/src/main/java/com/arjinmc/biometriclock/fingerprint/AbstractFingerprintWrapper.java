@@ -4,15 +4,15 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 
 /**
- * Abstract class for FingerPrint Wrapper
+ * Abstract class for Fingeprint Wrapper
  * Created by Eminem Lo on 30/9/2020.
  * email: arjinmc@hotmail.com
  */
-class AbstractFingerPrintWrapper implements IFingerPrintWrapper {
+class AbstractFingerprintWrapper implements IFingerprintWrapper {
 
     protected Context mContext;
 
-    public AbstractFingerPrintWrapper(Context context) {
+    public AbstractFingerprintWrapper(Context context) {
         mContext = context;
     }
 
@@ -35,7 +35,12 @@ class AbstractFingerPrintWrapper implements IFingerPrintWrapper {
     }
 
     @Override
-    public void authenticate(FingerPrintAuthenticateCallback fingerPrintAuthenticateCallback) {
+    public void authenticate(FingerprintAuthenticateCallback fingerPrintAuthenticateCallback) {
+
+    }
+
+    @Override
+    public void cancelAuthenticate() {
 
     }
 

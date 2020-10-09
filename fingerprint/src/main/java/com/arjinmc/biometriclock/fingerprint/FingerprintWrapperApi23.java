@@ -10,17 +10,18 @@ import androidx.annotation.RequiresApi;
 import com.arjinmc.biometriclock.fingerprint.model.AuthenticateError;
 
 /**
- * FingerPrintWrapper for api above 23
+ * FingerprintWrapper for api above 23
  * Created by Eminem Lo on 30/9/2020.
  * email: arjinmc@hotmail.com
  */
 @RequiresApi(api = Build.VERSION_CODES.M)
-class FingerPrintWrapperApi23 extends AbstractFingerPrintWrapper {
+class FingerprintWrapperApi23 extends AbstractFingerprintWrapper {
 
     private FingerprintManager mFingerprintManager;
     private FingerprintManager.AuthenticationCallback mAuthenticationCallback;
+    private CancellationSignal mCancellationSignal;
 
-    public FingerPrintWrapperApi23(Context context) {
+    public FingerprintWrapperApi23(Context context) {
         super(context);
         mFingerprintManager = getFingerprintManager();
     }
@@ -43,7 +44,7 @@ class FingerPrintWrapperApi23 extends AbstractFingerPrintWrapper {
     }
 
     @Override
-    public void authenticate(final FingerPrintAuthenticateCallback fingerPrintAuthenticateCallback) {
+    public void authenticate(final FingerprintAuthenticateCallback fingerPrintAuthenticateCallback) {
         if (fingerPrintAuthenticateCallback == null) {
             return;
         }
@@ -53,14 +54,14 @@ class FingerPrintWrapperApi23 extends AbstractFingerPrintWrapper {
                 public void onAuthenticationError(int errorCode, CharSequence errString) {
                     super.onAuthenticationError(errorCode, errString);
                     fingerPrintAuthenticateCallback.onError(AuthenticateError.ERROR_AUTHENTICATE_ERROR
-                            , AuthenticateError.formatErrorMessage(errorCode, errString.toString()));
+                            , errString.toString());
                 }
 
                 @Override
                 public void onAuthenticationHelp(int helpCode, CharSequence helpString) {
                     super.onAuthenticationHelp(helpCode, helpString);
-                    fingerPrintAuthenticateCallback.onError(AuthenticateError.ERROR_NEED_HELP
-                            , AuthenticateError.formatErrorMessage(helpCode, helpString.toString()));
+//                    fingerPrintAuthenticateCallback.onError(AuthenticateError.ERROR_NEED_HELP
+//                            , helpString.toString());
                 }
 
                 @Override
@@ -72,11 +73,21 @@ class FingerPrintWrapperApi23 extends AbstractFingerPrintWrapper {
                 @Override
                 public void onAuthenticationFailed() {
                     super.onAuthenticationFailed();
-                    fingerPrintAuthenticateCallback.onError(AuthenticateError.ERROR_FAILED, "authentication failed");
+                    fingerPrintAuthenticateCallback.onFailed();
                 }
             };
         }
-        mFingerprintManager.authenticate(null, new CancellationSignal(), 0, mAuthenticationCallback, null);
+        mCancellationSignal = new CancellationSignal();
+        mFingerprintManager.authenticate(null, mCancellationSignal, 0, mAuthenticationCallback, null);
+    }
+
+    @Override
+    public void cancelAuthenticate() {
+        if (mFingerprintManager == null) {
+            return;
+        }
+        mCancellationSignal.cancel();
+        mAuthenticationCallback = null;
     }
 
     private FingerprintManager getFingerprintManager() {

@@ -5,7 +5,7 @@ package com.arjinmc.biometriclock.fingerprint;
  * Created by Eminem Lo on 2020-01-21.
  * email: arjinmc@hotmail.com
  */
-interface IFingerPrintWrapper {
+interface IFingerprintWrapper {
 
     /**
      * check the device is support Finger print
@@ -26,6 +26,11 @@ interface IFingerPrintWrapper {
      *
      * @param fingerPrintAuthenticateCallback
      */
-    void authenticate(FingerPrintAuthenticateCallback fingerPrintAuthenticateCallback);
+    void authenticate(FingerprintAuthenticateCallback fingerPrintAuthenticateCallback);
+
+    /**
+     * cancel authenticate finger print
+     */
+    void cancelAuthenticate();
 
 }

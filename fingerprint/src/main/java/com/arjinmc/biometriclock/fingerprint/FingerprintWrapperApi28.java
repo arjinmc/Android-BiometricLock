@@ -7,14 +7,14 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 /**
- * FingerPrintWrapper for api above 28
+ * FingerprintWrapper for api above 28
  * Created by Eminem Lo on 30/9/2020.
  * email: arjinmc@hotmail.com
  */
 @RequiresApi(api = Build.VERSION_CODES.P)
-class FingerPrintWrapperApi28 extends AbstractFingerPrintWrapper {
+class FingerprintWrapperApi28 extends AbstractFingerprintWrapper {
 
-    public FingerPrintWrapperApi28(Context context) {
+    public FingerprintWrapperApi28(Context context) {
         super(context);
     }
 
