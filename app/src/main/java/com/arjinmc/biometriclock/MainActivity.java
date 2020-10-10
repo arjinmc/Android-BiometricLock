@@ -63,10 +63,10 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-//        if(FingerprintUtil.hasEnrolledStatus(this) == FingerprintEnrollStatus.STATUS_NONE_ENROLLED){
-//            Toast.makeText(this,"You need to setup a fingerprint on your devices",Toast.LENGTH_SHORT).show();
-//            return;
-//        }
+        if(FingerprintUtil.hasEnrolledStatus(this) == FingerprintEnrollStatus.STATUS_HAS_NO_ENROLLED){
+            Toast.makeText(this,"You need to setup a fingerprint on your devices",Toast.LENGTH_SHORT).show();
+            return;
+        }
         FingerprintUtil.authenticate(this, new FingerprintAuthenticateCallback() {
             @Override
             public void onError(String errorMsg) {

@@ -1,5 +1,73 @@
 # Android-BiometricLock
 
+## Fingerprint
+### Check status
+check if support fingerprint
+```code
+FingerprintUtil.isSupport(context);
+```
+check if has set fingerprint. Some devices cannot get fingrprint counts that will return FingerprintEnrollStatus.STATUS_UNKNOWN .
+```code
+int result = FingerprintUtil.hasEnrolledStatus(context);
+```
+
+### Call to authenticate fingerprint
+The callback is ran in a thread.
+```code
+FingerprintUtil.authenticate(context, new FingerprintAuthenticateCallback() {
+    @Override
+    public void onError(String errorMsg) {
+        Log.e("authenticate", "onError:" + errorMsg);
+        runOnUiThread(() -> Toast.makeText(MainActivity.this, errorMsg, Toast.LENGTH_SHORT).show());
+    }
+    
+    @Override
+    public void onFailed() {
+        Log.e("authenticate", "onFailed");
+    }
+    
+    @Override
+    public void onHasNoEnrolled() {
+        Log.e("authenticate", "has no enrolled");
+    }
+    
+    @Override
+    public void onCancel() {
+    
+    }
+    
+    @Override
+    public void onSuccess() {
+        Log.e("authenticate", "onSuccess");
+        runOnUiThread(() -> Toast.makeText(MainActivity.this, "Authenticate fingerprint success!", Toast.LENGTH_SHORT).show());
+    }
+    });
+```
+
+### Config for FingerprintAuthenticateDialog 
+```code
+FingerprintConfig fingerprintConfig = FingerprintConfig.getInstance(this);
+//set title
+fingerprintConfig.setTitle(R.string.biometriclock_authenticate_fingerprint_dialog_title);
+//set subtitle
+fingerprintConfig.setSubtitle("your own subtitle");
+//set description
+fingerprintConfig.setDescription();
+//set touch senesor tips
+fingerprintConfig.setTouchSensorTips(R.string.biometriclock_fingerprint_touch_sensor);
+//set touch senser authenticate failed tips
+fingerprintConfig.setTouchSensorFailedTips(R.string.biometriclock_fingerprint_touch_sensor_failed)
+
+//You can define your own authenticate dialog extends AbstractFingerprintAuthenticateDialog for below android P
+//remember to set the dialog instance like this
+//fingerprintConfig.setAuthenticateDialog(dialog);
+```
+
+#### Customer FingerprintAuthenticateDialog
+Firstly, extends ``AbstractFingerprintAuthenticateDialog``  
+Then over write  ``onAuthenticateFailed()`` and ``onReset()``
+
+## License
 ```code
    Copyright 2020 arjinmc
 
