@@ -72,6 +72,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
+            public void onFailed() {
+                Log.e("authenticate", "onFailed");
+            }
+
+            @Override
             public void onHasNoEnrolled() {
                 Log.e("authenticate", "has no enrolled");
             }

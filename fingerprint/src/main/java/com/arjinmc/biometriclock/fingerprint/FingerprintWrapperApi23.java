@@ -84,6 +84,7 @@ class FingerprintWrapperApi23 extends AbstractFingerprintWrapper {
                 @Override
                 public void onAuthenticationFailed() {
                     super.onAuthenticationFailed();
+                    fingerPrintAuthenticateCallback.onFailed();
                 }
             };
         }

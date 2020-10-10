@@ -3,6 +3,7 @@ package com.arjinmc.biometriclock.fingerprint;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -30,8 +31,9 @@ class FingerprintWrapper extends AbstractFingerprintWrapper {
         if (mFingerprintWrapper == null) {
 
             //get instance for different platform version
-//            mFingerprintWrapper = getBetterFingerprintWrapper(context);
-                mFingerprintWrapper = new FingerprintWrapperApi29(context);
+            mFingerprintWrapper = getBetterFingerprintWrapper(context);
+            //for test
+//                mFingerprintWrapper = new FingerprintWrapperApi29(context);
 //                mFingerprintWrapper = new FingerprintWrapperApi28(context);
 //                mFingerprintWrapper = new FingerprintWrapperApi23(context);
         }

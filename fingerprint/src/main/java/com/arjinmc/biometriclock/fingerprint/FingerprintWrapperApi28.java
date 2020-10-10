@@ -49,6 +49,15 @@ class FingerprintWrapperApi28 extends AbstractFingerprintWrapper {
 
     @Override
     public void authenticate(final FingerprintAuthenticateCallback fingerPrintAuthenticateCallback) {
+
+        if (fingerPrintAuthenticateCallback == null) {
+            return;
+        }
+
+        if (hasEnrolled() == FingerprintEnrollStatus.STATUS_HAS_NO_ENROLLED) {
+            return;
+        }
+
         mCancellationSignal = new CancellationSignal();
 
         if (mAuthenticationCallback == null) {
@@ -72,6 +81,7 @@ class FingerprintWrapperApi28 extends AbstractFingerprintWrapper {
                 @Override
                 public void onAuthenticationFailed() {
                     super.onAuthenticationFailed();
+                    fingerPrintAuthenticateCallback.onFailed();
                 }
             };
         }
