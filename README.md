@@ -11,7 +11,7 @@ check if has set fingerprint. Some devices cannot get fingrprint counts that wil
 int result = FingerprintUtil.hasEnrolledStatus(context);
 ```
 
-### Call to authenticate fingerprint
+### Call authenticate fingerprint
 The callback is ran in a thread.
 ```code
 FingerprintUtil.authenticate(context, new FingerprintAuthenticateCallback() {
@@ -44,6 +44,11 @@ FingerprintUtil.authenticate(context, new FingerprintAuthenticateCallback() {
     });
 ```
 
+### Cancel authenticate fingerprint
+```code
+FingerprintUtil.cancelAuthenticate();
+```
+
 ### Config for FingerprintAuthenticateDialog 
 ```code
 FingerprintConfig fingerprintConfig = FingerprintConfig.getInstance(this);
@@ -65,7 +70,8 @@ fingerprintConfig.setTouchSensorFailedTips(R.string.biometriclock_fingerprint_to
 
 #### Customer FingerprintAuthenticateDialog
 Firstly, extends ``AbstractFingerprintAuthenticateDialog``  
-Then over write  ``onAuthenticateFailed()`` and ``onReset()``
+Then over write  ``onAuthenticateFailed()`` and ``onReset()``  
+Remember to call ```FingerprintUtil.cancelAuthenticate()```  when your own cancel button of FingerprintAuthenticateDialog is clicked.
 
 ## License
 ```code
