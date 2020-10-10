@@ -13,6 +13,7 @@ import androidx.core.app.ActivityCompat;
 import com.arjinmc.biometriclock.fingerprint.FingerprintAuthenticateCallback;
 import com.arjinmc.biometriclock.fingerprint.FingerprintConfig;
 import com.arjinmc.biometriclock.fingerprint.FingerprintUtil;
+import com.arjinmc.biometriclock.fingerprint.model.FingerprintEnrollStatus;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
         mTvSupportFingerPrint.setText("Support Finger Print: " + FingerprintUtil.isSupport(this));
 
         mTvHasEnrolled = findViewById(R.id.tv_has_enrolled);
-//        mTvHasEnrolled.setText("Has Enrolled:" + FingerprintEnrollStatus.getStatusName(
-//                FingerprintUtil.hasEnrolledStatus(this)));
+        mTvHasEnrolled.setText("Has Enrolled:" + FingerprintEnrollStatus.getStatusName(
+                FingerprintUtil.hasEnrolledStatus(this)));
 
         mBtnAuthenticate = findViewById(R.id.btn_authenticate);
         mBtnAuthenticate.setOnClickListener(v -> {

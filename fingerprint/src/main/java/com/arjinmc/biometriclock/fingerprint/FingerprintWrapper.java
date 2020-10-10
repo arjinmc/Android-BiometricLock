@@ -31,8 +31,8 @@ class FingerprintWrapper extends AbstractFingerprintWrapper {
 
             //get instance for different platform version
 //            mFingerprintWrapper = getBetterFingerprintWrapper(context);
-//                mFingerprintWrapper = new FingerprintWrapperApi29(context);
-                mFingerprintWrapper = new FingerprintWrapperApi28(context);
+                mFingerprintWrapper = new FingerprintWrapperApi29(context);
+//                mFingerprintWrapper = new FingerprintWrapperApi28(context);
 //                mFingerprintWrapper = new FingerprintWrapperApi23(context);
         }
         return mFingerprintWrapper;
