@@ -14,7 +14,7 @@ public final class FingerprintEnrollStatus {
     /**
      * has not enrolled
      */
-    public static final int STATUS_NONE_ENROLLED = 0;
+    public static final int STATUS_HAS_NO_ENROLLED = 0;
     /**
      * has enrolled
      */
@@ -22,7 +22,7 @@ public final class FingerprintEnrollStatus {
 
     public static final String getStatusName(int status) {
         switch (status) {
-            case STATUS_NONE_ENROLLED:
+            case STATUS_HAS_NO_ENROLLED:
                 return "HAS NOT ENROLLED";
             case STATUS_HAS_ENROLLED:
                 return "HAS ENROLLED";

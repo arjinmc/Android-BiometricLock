@@ -36,7 +36,7 @@ public final class FingerprintUtil {
      * @param context
      * @return
      */
-    public static int hasEnrolled(Context context) {
+    public static int hasEnrolledStatus(Context context) {
         if (context == null) {
             return FingerprintEnrollStatus.STATUS_UNKNOWN;
         }

@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.arjinmc.biometriclock.fingerprint.FingerprintAuthenticateCallback;
+import com.arjinmc.biometriclock.fingerprint.FingerprintConfig;
 import com.arjinmc.biometriclock.fingerprint.FingerprintUtil;
-import com.arjinmc.biometriclock.view.AuthenticateFingerprintDialog;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,18 +25,21 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTvHasEnrolled;
     private Button mBtnAuthenticate;
 
-    private AuthenticateFingerprintDialog mAuthenticateFingerprintDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FingerprintConfig fingerprintConfig = FingerprintConfig.getInstance(this);
+        fingerprintConfig.setTitle(R.string.biometriclock_authenticate_fingerprint_dialog_title);
+        fingerprintConfig.setTouchSensorTips(R.string.biometriclock_fingerprint_touch_sensor);
+
         mTvSupportFingerPrint = findViewById(R.id.tv_support_finger_print);
         mTvSupportFingerPrint.setText("Support Finger Print: " + FingerprintUtil.isSupport(this));
 
         mTvHasEnrolled = findViewById(R.id.tv_has_enrolled);
-        mTvHasEnrolled.setText("Has Enrolled:" + FingerprintUtil.hasEnrolled(this));
+//        mTvHasEnrolled.setText("Has Enrolled:" + FingerprintEnrollStatus.getStatusName(
+//                FingerprintUtil.hasEnrolledStatus(this)));
 
         mBtnAuthenticate = findViewById(R.id.btn_authenticate);
         mBtnAuthenticate.setOnClickListener(v -> {
@@ -45,41 +48,44 @@ public class MainActivity extends AppCompatActivity {
 
         checkPermission();
 
-        if (!FingerprintUtil.isSupport(this) || !FingerprintUtil.hasEnrolled(this)) {
+        if (!FingerprintUtil.isSupport(this)) {
             return;
         }
-        mAuthenticateFingerprintDialog = new AuthenticateFingerprintDialog(this);
-        mAuthenticateFingerprintDialog.setOnOptionClickListener(() -> {
-            FingerprintUtil.cancelAuthenticate(MainActivity.this);
-        });
     }
 
     private void checkAuthenticate() {
 
-        if (!FingerprintUtil.isSupport(this) || !FingerprintUtil.hasEnrolled(this)) {
+        if (!FingerprintUtil.isSupport(this)) {
             return;
         }
+
+//        if(FingerprintUtil.hasEnrolledStatus(this) == FingerprintEnrollStatus.STATUS_NONE_ENROLLED){
+//            Toast.makeText(this,"You need to setup a fingerprint on your devices",Toast.LENGTH_SHORT).show();
+//            return;
+//        }
         FingerprintUtil.authenticate(this, new FingerprintAuthenticateCallback() {
             @Override
-            public void onError(int errorCode, String errorMsg) {
-                Log.e("authenticate", "onError->code：" + errorCode + "\tmessage:" + errorMsg);
-                Toast.makeText(MainActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
-                mAuthenticateFingerprintDialog.dismiss();
+            public void onError(String errorMsg) {
+                Log.e("authenticate", "onError:" + errorMsg);
+                runOnUiThread(() -> Toast.makeText(MainActivity.this, errorMsg, Toast.LENGTH_SHORT).show());
             }
 
             @Override
-            public void onFailed() {
-                Log.e("authenticate", "onFailed");
+            public void onHasNoEnrolled() {
+                Log.e("authenticate", "has no enrolled");
+            }
+
+            @Override
+            public void onCancel() {
+
             }
 
             @Override
             public void onSuccess() {
                 Log.e("authenticate", "onSuccess");
-                mAuthenticateFingerprintDialog.dismiss();
-                Toast.makeText(MainActivity.this, "Authenticate fingerprint success!", Toast.LENGTH_SHORT).show();
+                runOnUiThread(() -> Toast.makeText(MainActivity.this, "Authenticate fingerprint success!", Toast.LENGTH_SHORT).show());
             }
         });
-        mAuthenticateFingerprintDialog.show();
     }
 
     /**

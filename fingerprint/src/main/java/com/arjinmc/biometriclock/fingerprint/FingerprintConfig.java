@@ -1,5 +1,6 @@
 package com.arjinmc.biometriclock.fingerprint;
 
+import android.app.Dialog;
 import android.content.Context;
 
 import androidx.annotation.StringRes;
@@ -12,11 +13,28 @@ import androidx.annotation.StringRes;
 public final class FingerprintConfig {
 
     private static FingerprintConfig mFingerprintConfig;
-
     private static Context mContext;
-    private static String mTitle;
-    private static String mSubtitle;
-    private static String mDescription;
+    /**
+     * Authenticate dialog title
+     */
+    private String mTitle;
+    /**
+     * Authenticate dialog subtitle
+     */
+    private String mSubtitle;
+    /**
+     * Authenticate dialog description
+     */
+    private String mDescription;
+    /**
+     * Authenticate dialog tips remind user to touch sensor
+     */
+    private String mTouchSensorTips;
+    /**
+     * Authenticate dialog cancel button text
+     */
+    private String mCancelText;
+    private Dialog mAuthenticateDialog;
 
     private FingerprintConfig() {
     }
@@ -63,5 +81,37 @@ public final class FingerprintConfig {
 
     public String getDescription() {
         return mDescription;
+    }
+
+    public String getTouchSensorTips() {
+        return mTouchSensorTips;
+    }
+
+    public void setTouchSensorTips(String touchSensorTips) {
+        mTouchSensorTips = touchSensorTips;
+    }
+
+    public void setTouchSensorTips(@StringRes int touchSensorTips) {
+        mTouchSensorTips = mContext.getString(touchSensorTips);
+    }
+
+    public void setCancelText(String cancelText) {
+        mCancelText = cancelText;
+    }
+
+    public void setCancelText(@StringRes int cancelText) {
+        mCancelText = mContext.getString(cancelText);
+    }
+
+    public String getCancelText() {
+        return mCancelText;
+    }
+
+    public void setAuthenticateDialog(Dialog dialog) {
+        mAuthenticateDialog = dialog;
+    }
+
+    public Dialog getAuthenticateDialog() {
+        return mAuthenticateDialog;
     }
 }

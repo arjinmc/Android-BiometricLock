@@ -28,23 +28,12 @@ class FingerprintWrapper extends AbstractFingerprintWrapper {
             return null;
         }
         if (mFingerprintWrapper == null) {
-            try {
 
-                //get instance for different platform version
-
-                mFingerprintWrapper = getBetterFingerprintWrapper(context);
-//            if (isAboveApi29()) {
+            //get instance for different platform version
+//            mFingerprintWrapper = getBetterFingerprintWrapper(context);
 //                mFingerprintWrapper = new FingerprintWrapperApi29(context);
-//            } else if (isAboveApi28()) {
-//                mFingerprintWrapper = new FingerprintWrapperApi28(context);
-//            } else if (isAboveApi23()) {
+                mFingerprintWrapper = new FingerprintWrapperApi28(context);
 //                mFingerprintWrapper = new FingerprintWrapperApi23(context);
-//            }
-            } catch (Exception e) {
-                if (isAboveApi23()) {
-//                mFingerprintWrapper = new FingerprintWrapperApi23(context);
-                }
-            }
         }
         return mFingerprintWrapper;
     }
@@ -93,17 +82,5 @@ class FingerprintWrapper extends AbstractFingerprintWrapper {
         } catch (Exception e) {
             return null;
         }
-    }
-
-    private static boolean isAboveApi29() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
-    }
-
-    private static boolean isAboveApi28() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
-    }
-
-    private static boolean isAboveApi23() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 }

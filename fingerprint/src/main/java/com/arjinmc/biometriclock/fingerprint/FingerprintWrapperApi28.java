@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.hardware.biometrics.BiometricPrompt;
 import android.os.Build;
 import android.os.CancellationSignal;
+import android.text.TextUtils;
 
 import androidx.annotation.RequiresApi;
 
@@ -39,7 +40,7 @@ class FingerprintWrapperApi28 extends AbstractFingerprintWrapper {
             } catch (Exception e) {
                 return FingerprintEnrollStatus.STATUS_UNKNOWN;
             }
-            return result > 0 ? FingerprintEnrollStatus.STATUS_HAS_ENROLLED : FingerprintEnrollStatus.STATUS_NONE_ENROLLED;
+            return result > 0 ? FingerprintEnrollStatus.STATUS_HAS_ENROLLED : FingerprintEnrollStatus.STATUS_HAS_NO_ENROLLED;
 
         } else {
             return FingerprintEnrollStatus.STATUS_UNKNOWN;
@@ -55,7 +56,11 @@ class FingerprintWrapperApi28 extends AbstractFingerprintWrapper {
                 @Override
                 public void onAuthenticationError(int errorCode, CharSequence errString) {
                     super.onAuthenticationError(errorCode, errString);
-                    fingerPrintAuthenticateCallback.onError(errString.toString());
+                    if (errorCode == BiometricPrompt.BIOMETRIC_ERROR_CANCELED) {
+                        fingerPrintAuthenticateCallback.onCancel();
+                    } else {
+                        fingerPrintAuthenticateCallback.onError(errString.toString());
+                    }
                 }
 
                 @Override
@@ -67,7 +72,6 @@ class FingerprintWrapperApi28 extends AbstractFingerprintWrapper {
                 @Override
                 public void onAuthenticationFailed() {
                     super.onAuthenticationFailed();
-                    fingerPrintAuthenticateCallback.onFailed();
                 }
             };
         }
@@ -86,15 +90,28 @@ class FingerprintWrapperApi28 extends AbstractFingerprintWrapper {
     private BiometricPrompt getBiometricPrompt() {
         if (mBiometricPrompt == null) {
             mExecutor = Executors.newSingleThreadExecutor();
-            mBiometricPrompt = new BiometricPrompt.Builder(getContext())
-                    .setTitle("BiometricPrompt")
-                    .setSubtitle("hello")
-                    .setDescription("okbo")
-                    .setNegativeButton("cancel", mExecutor, new DialogInterface.OnClickListener() {
+            BiometricPrompt.Builder builder = new BiometricPrompt.Builder(getContext());
+            FingerprintConfig fingerprintConfig = FingerprintConfig.getInstance(getContext());
+
+            builder.setTitle(TextUtils.isEmpty(fingerprintConfig.getTitle())
+                    ? getContext().getString(R.string.biometriclock_authenticate_fingerprint_dialog_title)
+                    : fingerprintConfig.getTitle());
+            if (!TextUtils.isEmpty(fingerprintConfig.getSubtitle())) {
+                builder.setSubtitle(fingerprintConfig.getSubtitle());
+            }
+            if (!TextUtils.isEmpty(fingerprintConfig.getDescription())) {
+                builder.setDescription(fingerprintConfig.getDescription());
+            }
+            builder.setNegativeButton(
+                    TextUtils.isEmpty(fingerprintConfig.getCancelText())
+                            ? getContext().getString(R.string.biometriclock_fingerprint_cancel)
+                            : fingerprintConfig.getCancelText()
+                    , mExecutor, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                         }
-                    }).build();
+                    });
+            mBiometricPrompt = builder.build();
         }
         return mBiometricPrompt;
     }

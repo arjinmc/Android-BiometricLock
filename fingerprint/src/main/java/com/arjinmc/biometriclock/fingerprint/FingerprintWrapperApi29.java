@@ -35,7 +35,7 @@ class FingerprintWrapperApi29 extends AbstractFingerprintWrapper {
     public int hasEnrolled() {
 
         return BiometricManager.BIOMETRIC_SUCCESS == getBiometricManager().canAuthenticate()
-                ? FingerprintEnrollStatus.STATUS_HAS_ENROLLED : FingerprintEnrollStatus.STATUS_NONE_ENROLLED;
+                ? FingerprintEnrollStatus.STATUS_HAS_ENROLLED : FingerprintEnrollStatus.STATUS_HAS_NO_ENROLLED;
     }
 
     private BiometricManager getBiometricManager() {

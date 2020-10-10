@@ -15,9 +15,14 @@ public interface FingerprintAuthenticateCallback {
     void onError(String errorMsg);
 
     /**
-     * onFailed
+     * onHasNoEnrolled
      */
-    void onFailed();
+    void onHasNoEnrolled();
+
+    /**
+     * onCancel
+     */
+    void onCancel();
 
     /**
      * onSuccess

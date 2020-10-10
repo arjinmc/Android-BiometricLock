@@ -1,6 +1,3 @@
 <resources>
     <string name="app_name">Android-BiometricLock</string>
-
-    <string name="authenticate_fingerprint_dialog_tips">Authenticate fingerprint</string>
-    <string name="cancel">Cancel</string>
 </resources>
