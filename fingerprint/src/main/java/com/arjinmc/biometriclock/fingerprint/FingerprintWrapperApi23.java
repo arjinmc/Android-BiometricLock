@@ -1,6 +1,5 @@
 package com.arjinmc.biometriclock.fingerprint;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
@@ -9,6 +8,7 @@ import android.os.CancellationSignal;
 import androidx.annotation.RequiresApi;
 
 import com.arjinmc.biometriclock.fingerprint.model.FingerprintEnrollStatus;
+import com.arjinmc.biometriclock.fingerprint.view.AbstractFingerprintAuthenticateDialog;
 import com.arjinmc.biometriclock.fingerprint.view.FingerprintAuthenticateDialog;
 
 /**
@@ -22,7 +22,7 @@ class FingerprintWrapperApi23 extends AbstractFingerprintWrapper {
     private FingerprintManager mFingerprintManager;
     private FingerprintManager.AuthenticationCallback mAuthenticationCallback;
     private CancellationSignal mCancellationSignal;
-    private Dialog mAuthenticateDialog;
+    private AbstractFingerprintAuthenticateDialog mAuthenticateDialog;
 
     public FingerprintWrapperApi23(Context context) {
         super(context);
@@ -84,6 +84,9 @@ class FingerprintWrapperApi23 extends AbstractFingerprintWrapper {
                 @Override
                 public void onAuthenticationFailed() {
                     super.onAuthenticationFailed();
+                    if (mAuthenticateDialog != null) {
+                        mAuthenticateDialog.onAuthenticateFailed();
+                    }
                     fingerPrintAuthenticateCallback.onFailed();
                 }
             };
@@ -96,6 +99,7 @@ class FingerprintWrapperApi23 extends AbstractFingerprintWrapper {
                 mAuthenticateDialog = new FingerprintAuthenticateDialog(getContext());
             }
         }
+        mAuthenticateDialog.onReset();
         if (!mAuthenticateDialog.isShowing()) {
             mAuthenticateDialog.show();
         }

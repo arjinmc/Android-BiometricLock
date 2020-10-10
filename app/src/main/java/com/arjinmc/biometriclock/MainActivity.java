@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
         FingerprintConfig fingerprintConfig = FingerprintConfig.getInstance(this);
         fingerprintConfig.setTitle(R.string.biometriclock_authenticate_fingerprint_dialog_title);
         fingerprintConfig.setTouchSensorTips(R.string.biometriclock_fingerprint_touch_sensor);
+        //You can define your own authenticate dialog for below android P
+        //remember to set the dialog instance like this
+//       fingerprintConfig.setAuthenticateDialog(dialog);
 
         mTvSupportFingerPrint = findViewById(R.id.tv_support_finger_print);
         mTvSupportFingerPrint.setText("Support Finger Print: " + FingerprintUtil.isSupport(this));

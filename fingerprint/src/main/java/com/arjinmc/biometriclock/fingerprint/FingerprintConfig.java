@@ -5,6 +5,8 @@ import android.content.Context;
 
 import androidx.annotation.StringRes;
 
+import com.arjinmc.biometriclock.fingerprint.view.AbstractFingerprintAuthenticateDialog;
+
 /**
  * Fingerprint Config
  * Created by Eminem Lo on 9/10/2020.
@@ -31,10 +33,14 @@ public final class FingerprintConfig {
      */
     private String mTouchSensorTips;
     /**
+     * Authenticate dialog failed tips remind user to touch sensor
+     */
+    private String mTouchSensorFailedTips;
+    /**
      * Authenticate dialog cancel button text
      */
     private String mCancelText;
-    private Dialog mAuthenticateDialog;
+    private AbstractFingerprintAuthenticateDialog mAuthenticateDialog;
 
     private FingerprintConfig() {
     }
@@ -95,6 +101,18 @@ public final class FingerprintConfig {
         mTouchSensorTips = mContext.getString(touchSensorTips);
     }
 
+    public void setTouchSensorFailedTips(String touchSensorFailedTips) {
+        mTouchSensorFailedTips = touchSensorFailedTips;
+    }
+
+    public void setTouchSensorFailedTips(@StringRes int touchSensorFailedTips) {
+        mTouchSensorFailedTips = mContext.getString(touchSensorFailedTips);
+    }
+
+    public String getTouchSensorFailedTips() {
+        return mTouchSensorFailedTips;
+    }
+
     public void setCancelText(String cancelText) {
         mCancelText = cancelText;
     }
@@ -107,11 +125,11 @@ public final class FingerprintConfig {
         return mCancelText;
     }
 
-    public void setAuthenticateDialog(Dialog dialog) {
+    public void setAuthenticateDialog(AbstractFingerprintAuthenticateDialog dialog) {
         mAuthenticateDialog = dialog;
     }
 
-    public Dialog getAuthenticateDialog() {
+    public AbstractFingerprintAuthenticateDialog getAuthenticateDialog() {
         return mAuthenticateDialog;
     }
 }

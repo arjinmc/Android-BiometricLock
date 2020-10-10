@@ -1,7 +1,7 @@
 package com.arjinmc.biometriclock.fingerprint.view;
 
-import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Build;
 import android.text.TextUtils;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.arjinmc.biometriclock.fingerprint.FingerprintConfig;
 import com.arjinmc.biometriclock.fingerprint.FingerprintUtil;
@@ -26,10 +27,11 @@ import com.arjinmc.biometriclock.fingerprint.R;
  * Created by Eminem Lo on 9/10/2020.
  * email: arjinmc@hotmail.com
  */
-public class FingerprintAuthenticateDialog extends Dialog {
+public class FingerprintAuthenticateDialog extends AbstractFingerprintAuthenticateDialog {
 
     private TextView mTvTitle, mTvSubTitle, mTvDescription, mTvTouchSensorTips;
     private TextView mTvCancel;
+    private String mFailedText;
 
     public FingerprintAuthenticateDialog(@NonNull Context context) {
         super(context);
@@ -73,6 +75,10 @@ public class FingerprintAuthenticateDialog extends Dialog {
         if (!TextUtils.isEmpty(fingerprintConfig.getTouchSensorTips())) {
             mTvTouchSensorTips.setText(fingerprintConfig.getTouchSensorTips());
         }
+        mFailedText = TextUtils.isEmpty(fingerprintConfig.getTouchSensorFailedTips())
+                ? getContext().getString(R.string.biometriclock_fingerprint_touch_sensor_fail)
+                : fingerprintConfig.getTouchSensorFailedTips();
+
         mTvCancel = view.findViewById(R.id.tv_cancel);
         mTvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +113,24 @@ public class FingerprintAuthenticateDialog extends Dialog {
             Point point = new Point();
             windowManager.getDefaultDisplay().getSize(point);
             return point.x;
+        }
+    }
+
+    @Override
+    public void onAuthenticateFailed() {
+        if (mTvTouchSensorTips != null) {
+            mTvTouchSensorTips.setText(mFailedText);
+            mTvTouchSensorTips.setTextColor(Color.RED);
+            mTvTouchSensorTips.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onReset() {
+        if (mTvTouchSensorTips != null) {
+            mTvTouchSensorTips.setText(R.string.biometriclock_fingerprint_touch_sensor);
+            mTvTouchSensorTips.setTextColor(ContextCompat.getColor(getContext(), android.R.color.darker_gray));
+            mTvTouchSensorTips.setVisibility(View.VISIBLE);
         }
     }
 }

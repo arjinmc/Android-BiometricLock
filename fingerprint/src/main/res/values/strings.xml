@@ -3,4 +3,5 @@
     <string name="biometriclock_authenticate_fingerprint_dialog_title">Authenticate fingerprint</string>
     <string name="biometriclock_fingerprint_cancel">Cancel</string>
     <string name="biometriclock_fingerprint_touch_sensor">Please touch fingerprint sensor</string>
+    <string name="biometriclock_fingerprint_touch_sensor_fail">Authenticate failed, try again</string>
 </resources>
