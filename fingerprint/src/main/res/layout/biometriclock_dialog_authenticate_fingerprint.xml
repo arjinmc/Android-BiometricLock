@@ -4,13 +4,15 @@
     android:layout_height="wrap_content"
     android:background="@drawable/biometriclock_fingerprint_bg_dialog"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
         android:text="@string/biometriclock_authenticate_fingerprint_dialog_title"
         android:textColor="@android:color/black"
         android:textSize="16sp" />
@@ -43,9 +45,11 @@
         android:id="@+id/tv_touch_sensor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:textColor="@android:color/darker_gray"
-        android:text="@string/biometriclock_fingerprint_touch_sensor" />
+        android:layout_marginRight="16dp"
+        android:text="@string/biometriclock_fingerprint_touch_sensor"
+        android:textColor="@android:color/darker_gray" />
 
     <TextView
         android:layout_width="match_parent"
