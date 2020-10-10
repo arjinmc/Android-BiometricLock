@@ -51,7 +51,7 @@ FingerprintUtil.cancelAuthenticate();
 
 ### Config for FingerprintAuthenticateDialog 
 ```code
-FingerprintConfig fingerprintConfig = FingerprintConfig.getInstance(this);
+FingerprintConfig fingerprintConfig = FingerprintConfig.getInstance(context);
 //set title
 fingerprintConfig.setTitle(R.string.biometriclock_authenticate_fingerprint_dialog_title);
 //set subtitle
