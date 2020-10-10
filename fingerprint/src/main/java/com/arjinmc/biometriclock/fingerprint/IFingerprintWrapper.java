@@ -19,7 +19,7 @@ interface IFingerprintWrapper {
      *
      * @return
      */
-    boolean hasEnrolled();
+    int hasEnrolled();
 
     /**
      * authenticate finger print

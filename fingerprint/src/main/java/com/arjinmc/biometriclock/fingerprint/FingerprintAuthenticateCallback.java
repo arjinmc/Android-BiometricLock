@@ -10,10 +10,9 @@ public interface FingerprintAuthenticateCallback {
     /**
      * onError
      *
-     * @param errorCode
      * @param errorMsg
      */
-    void onError(int errorCode,String errorMsg);
+    void onError(String errorMsg);
 
     /**
      * onFailed

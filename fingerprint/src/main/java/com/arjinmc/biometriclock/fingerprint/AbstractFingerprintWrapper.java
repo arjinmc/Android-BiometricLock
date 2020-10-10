@@ -3,6 +3,8 @@ package com.arjinmc.biometriclock.fingerprint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
+import com.arjinmc.biometriclock.fingerprint.model.FingerprintEnrollStatus;
+
 /**
  * Abstract class for Fingeprint Wrapper
  * Created by Eminem Lo on 30/9/2020.
@@ -30,8 +32,8 @@ class AbstractFingerprintWrapper implements IFingerprintWrapper {
     }
 
     @Override
-    public boolean hasEnrolled() {
-        return false;
+    public int hasEnrolled() {
+        return FingerprintEnrollStatus.STATUS_UNKNOWN;
     }
 
     @Override

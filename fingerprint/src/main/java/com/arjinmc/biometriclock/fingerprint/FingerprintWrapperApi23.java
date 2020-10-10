@@ -7,7 +7,7 @@ import android.os.CancellationSignal;
 
 import androidx.annotation.RequiresApi;
 
-import com.arjinmc.biometriclock.fingerprint.model.AuthenticateError;
+import com.arjinmc.biometriclock.fingerprint.model.FingerprintEnrollStatus;
 
 /**
  * FingerprintWrapper for api above 23
@@ -35,11 +35,12 @@ class FingerprintWrapperApi23 extends AbstractFingerprintWrapper {
     }
 
     @Override
-    public boolean hasEnrolled() {
+    public int hasEnrolled() {
         if (mFingerprintManager != null) {
-            return mFingerprintManager.hasEnrolledFingerprints();
+            return mFingerprintManager.hasEnrolledFingerprints() ?
+                    FingerprintEnrollStatus.STATUS_HAS_ENROLLED : FingerprintEnrollStatus.STATUS_NONE_ENROLLED;
         } else {
-            return false;
+            return FingerprintEnrollStatus.STATUS_UNKNOWN;
         }
     }
 
@@ -53,15 +54,7 @@ class FingerprintWrapperApi23 extends AbstractFingerprintWrapper {
                 @Override
                 public void onAuthenticationError(int errorCode, CharSequence errString) {
                     super.onAuthenticationError(errorCode, errString);
-                    fingerPrintAuthenticateCallback.onError(AuthenticateError.ERROR_AUTHENTICATE_ERROR
-                            , errString.toString());
-                }
-
-                @Override
-                public void onAuthenticationHelp(int helpCode, CharSequence helpString) {
-                    super.onAuthenticationHelp(helpCode, helpString);
-//                    fingerPrintAuthenticateCallback.onError(AuthenticateError.ERROR_NEED_HELP
-//                            , helpString.toString());
+                    fingerPrintAuthenticateCallback.onError(errString.toString());
                 }
 
                 @Override

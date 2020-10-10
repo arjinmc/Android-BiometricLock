@@ -1,6 +1,9 @@
 package com.arjinmc.biometriclock.fingerprint;
 
 import android.content.Context;
+import android.os.Build;
+
+import com.arjinmc.biometriclock.fingerprint.model.FingerprintEnrollStatus;
 
 /**
  * Fingerprint util
@@ -19,6 +22,11 @@ public final class FingerprintUtil {
         if (context == null) {
             return false;
         }
+
+        if (!isSystemVersionSupportFingerprint()) {
+            return false;
+        }
+
         return FingerprintWrapper.getInstance(context).isSupported();
     }
 
@@ -28,10 +36,15 @@ public final class FingerprintUtil {
      * @param context
      * @return
      */
-    public static boolean hasEnrolled(Context context) {
+    public static int hasEnrolled(Context context) {
         if (context == null) {
-            return false;
+            return FingerprintEnrollStatus.STATUS_UNKNOWN;
         }
+
+        if (!isSystemVersionSupportFingerprint()) {
+            return FingerprintEnrollStatus.STATUS_UNKNOWN;
+        }
+
         return FingerprintWrapper.getInstance(context).hasEnrolled();
     }
 
@@ -42,17 +55,31 @@ public final class FingerprintUtil {
      * @param fingerPrintAuthenticateCallback
      */
     public static void authenticate(Context context, FingerprintAuthenticateCallback fingerPrintAuthenticateCallback) {
-        if (context==null || fingerPrintAuthenticateCallback == null) {
+        if (context == null || fingerPrintAuthenticateCallback == null) {
             return;
         }
+
+        if (!isSystemVersionSupportFingerprint()) {
+            return;
+        }
+
         FingerprintWrapper.getInstance(context).authenticate(fingerPrintAuthenticateCallback);
     }
 
-    public static void cancelAuthenticate(Context context){
-        if(context==null){
+    public static void cancelAuthenticate(Context context) {
+        if (context == null) {
             return;
         }
+
+        if (!isSystemVersionSupportFingerprint()) {
+            return;
+        }
+
         FingerprintWrapper.getInstance(context).cancelAuthenticate();
+    }
+
+    private static boolean isSystemVersionSupportFingerprint() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
     }
 
 }
